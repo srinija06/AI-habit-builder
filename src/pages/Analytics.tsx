@@ -1,12 +1,30 @@
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, TrendingUp, Calendar, Award } from "lucide-react";
 
+const STORAGE_KEY = "ai-habit-builder:habits";
+
 const Analytics = () => {
+  const [habits, setHabits] = useState<any[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setHabits(JSON.parse(raw));
+    } catch (e) {
+      setHabits([]);
+    }
+  }, []);
+
+  const totalHabits = habits.length;
+  const totalSubtasks = habits.reduce((acc, h) => acc + (Array.isArray(h.subtasks) ? h.subtasks.length : 0), 0);
+  const avgSubtasks = totalHabits ? Math.round((totalSubtasks / totalHabits) * 10) / 10 : 0;
+
   const stats = [
-    { label: "Total Habits", value: "12", icon: BarChart3, color: "text-primary" },
-    { label: "Completion Rate", value: "87%", icon: TrendingUp, color: "text-secondary" },
-    { label: "Current Streak", value: "7 Days", icon: Calendar, color: "text-accent" },
-    { label: "Achievements", value: "5", icon: Award, color: "text-warning" },
+    { label: "Total Habits", value: String(totalHabits || 0), icon: BarChart3, color: "text-primary" },
+    { label: "Total Sub-tasks", value: String(totalSubtasks || 0), icon: TrendingUp, color: "text-secondary" },
+    { label: "Average Sub-tasks", value: String(avgSubtasks), icon: Calendar, color: "text-accent" },
+    { label: "Tracked Days", value: "—", icon: Award, color: "text-warning" },
   ];
 
   return (
@@ -29,21 +47,18 @@ const Analytics = () => {
 
       <Card className="shadow-[var(--shadow-elevated)] border-border/50">
         <CardHeader>
-          <CardTitle>Weekly Progress</CardTitle>
-          <CardDescription>Your habit completion over the last 7 days</CardDescription>
+          <CardTitle>Recent Habits</CardTitle>
+          <CardDescription>Latest habits you added</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64 flex items-end justify-between gap-2">
-            {[85, 92, 78, 95, 88, 91, 87].map((value, index) => (
-              <div key={index} className="flex-1 flex flex-col items-center gap-2">
-                <div className="w-full bg-muted rounded-t-lg relative overflow-hidden" style={{ height: `${value}%` }}>
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary to-accent" />
-                </div>
-                <span className="text-xs text-muted-foreground">
-                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index]}
-                </span>
+          <div className="space-y-3">
+            {habits.slice(0, 6).map((h: any, i: number) => (
+              <div key={i} className="p-3 rounded-md bg-muted/20">
+                <p className="font-medium">{h.name}</p>
+                <p className="text-sm text-muted-foreground">{Array.isArray(h.subtasks) ? `${h.subtasks.length} steps` : "—"}</p>
               </div>
             ))}
+            {habits.length === 0 && <p className="text-sm text-muted-foreground">No habits tracked yet.</p>}
           </div>
         </CardContent>
       </Card>

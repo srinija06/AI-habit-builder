@@ -1,5 +1,5 @@
 import { MoodCheckIn } from "@/components/MoodCheckIn";
-import { HabitBreaker } from "@/components/HabitBreaker";
+import Habits from "@/pages/Habits";
 import { CoachMessage } from "@/components/CoachMessage";
 import { SmartSchedule } from "@/components/SmartSchedule";
 
@@ -13,7 +13,7 @@ const Dashboard = ({ coachPersona }: DashboardProps) => {
       <MoodCheckIn />
       
       <div className="grid gap-6 md:grid-cols-2">
-        <HabitBreaker />
+        <Habits />
         <div className="space-y-6">
           <CoachMessage persona={coachPersona} />
           <SmartSchedule />
