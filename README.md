@@ -1,90 +1,162 @@
-AI Habit System
+AI Habit Builder
 
-The AI Habit System is an intelligent, adaptive habit-building assistant designed to simplify routines, align with human emotions, and guide users with personalized coaching styles. It transforms everyday tasks into achievable actions by combining automation, emotional intelligence, and circadian rhythm alignment.
+An intelligent, adaptive habit-building assistant that breaks tasks into micro-tasks, adapts to users’ emotions and circadian rhythm, and provides multi-style AI coaching.
+
+🚀 Features
+
+Automatic Habit Breaker — Break large tasks into timed micro-steps.
+
+Emotional-Adaptive Engine — One-sentence check-ins adjust the day’s plan.
+
+Multi-Personality Coach — Supportive, Strict, Cheerful, Calm, or Lightly Sarcastic.
+
+Circadian Rhythm Alignment — Routines shift to fit your sleep/wake patterns.
+
+📁 Project Folder Structure
+
+This is the structure of the project as shown in your repo:
+
+AI-HABIT-BUILDER/
+├── node_modules/
+├── public/
+├── src/
+├── .env.example
+├── .gitignore
+├── bun.lockb
+├── components.json
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── README.md
+├── server.js
+├── tailwind.config.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+
+What the important items are:
+
+node_modules/ — Installed dependencies (auto-generated).
+
+public/ — Static assets (favicons, images, etc.).
+
+src/ — Application source code (components, pages, styles, utilities).
+
+.env.example — Example environment variables. Copy to .env and fill values.
+
+index.html — Vite entry HTML.
+
+package.json & package-lock.json — Project metadata and scripts.
+
+vite.config.ts — Vite configuration (dev server, build).
+
+tailwind.config.ts & postcss.config.js — Tailwind / PostCSS setup.
+
+server.js — Node/Express (or similar) server entry (used in production or API proxy).
+
+tsconfig.json* — TypeScript configuration files.
+
+eslint.config.js — Linting rules.
+
+components.json — Optional: component metadata used by the app or builder.
+
+bun.lockb — (If using Bun) lock file for Bun package manager.
+
+🛠️ Prerequisites
+
+Node.js (v16+ recommended)
+
+npm (or yarn/pnpm)
+
+(Optional) Bun — if you use Bun for running packages
+
+💻 How to run locally
+
+Clone the repo
+
+git clone <your-github-repo-link>
+cd AI-HABIT-BUILDER
 
 
----
+Create .env
 
-✨ Key Features
+Copy the example env and fill required keys:
 
-1. Automatic Habit Breaker
-
-Break any big daily task into small, manageable action steps.
-Users simply enter a task, and the system converts it into time-bound micro-tasks.
-
-Example
-Input: “Study a chapter”
-Output:
-
-10 min — Quick skim to understand the topics
-
-15 min — Read and highlight key concepts
-
-10 min — Make short notes
-
-5 min — Revise highlights
-
-5 min — Attempt quick recall or a mini quiz
+cp .env.example .env
+# edit .env with API keys / settings
 
 
+Install dependencies
 
----
-
-2. Emotional-Adaptive Habit Engine
-
-A daily emotional check-in powers dynamic habit adjustment.
-Users type one sentence about how they feel; the AI adjusts the day’s routine based on energy and emotional state.
-
-Example
-Input: “Feeling stressed”
-AI Response: “Your tasks are adjusted to lighter, calming activities for today.”
+npm install
 
 
----
+Run the dev server
 
-3. Multi-Personality AI Coach
+If you're using Vite:
 
-Choose how you want the system to talk to you.
-Every coach style stays professional but matches the user’s preferred tone.
-
-Available Styles
-
-Supportive
-
-Strict
-
-Cheerful
-
-Calm
-
-Lightly sarcastic (professional humor)
+npm run dev
 
 
-Example
-Supportive Coach: “You’re making steady progress. Let’s continue with today’s plan.”
+Open the URL Vite prints (typically http://localhost:5173 or http://localhost:3000 depending on config).
+
+Production / server
+
+If you have a server.js for production or Node-based API, you might:
+
+npm run build    # builds production bundle (if script exists)
+node server.js   # runs the server (make sure env vars set)
 
 
----
+Check package.json scripts to confirm exact commands (dev, build, preview, etc.). If you want, paste your package.json and I’ll add exact commands here.
 
-4. Circadian Rhythm Aligner
+⚙️ Environment variables
 
-The system reads your wake-up and sleep patterns and automatically adjusts your routine to fit your natural rhythm.
-No unrealistic schedules. No guilt. Pure alignment.
+Add sensitive keys and configuration to .env (do not commit .env):
 
-Example
-If you wake up late, your morning routine shifts automatically instead of keeping the old timing.
+Typical keys you might need:
+
+VITE_API_BASE_URL=
+OPENAI_API_KEY=
+NEXT_PUBLIC_SOME_KEY=
+PORT=3000
 
 
----
+(Use .env.example as a template.)
 
-📌 Why This System Works
+✅ Common scripts (example)
 
-Removes friction from starting tasks
+Your package.json likely contains scripts like the following (adjust if yours differ):
 
-Respects emotional and mental bandwidth
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
+  }
+}
 
-Adapts to your biological rhythm
+🧪 Tests & Linting
 
-Provides accountability in the tone you respond to best
+Run ESLint (if configured):
 
-Turns overwhelming routines into easy daily wins
+npm run lint
+
+
+Add test scripts if you add testing (Jest, Vitest, etc.).
+
+🤝 Contributing
+
+Contributions welcome! Suggested workflow:
+
+Fork the repo
+
+Create a branch: git checkout -b feat/your-feature
+
+Commit changes & push
+
+Open a Pull Request with a brief description
