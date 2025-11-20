@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Target, TrendingUp, Plus } from "lucide-react";
+import { Target, TrendingUp, Plus, Trash2, Scissors } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -189,6 +189,61 @@ const Habits: React.FC = () => {
     }
   }
 
+  async function breakSubtask(habitIndex: number, taskIndex: number) {
+    const task = habits[habitIndex]?.subtasks[taskIndex];
+    if (!task) return;
+    if (!window.confirm(`Break down this task?\n\n${task}`)) return;
+    setLoadingAi(true);
+    try {
+      const resp = await fetch(`${API_BASE}/api/generate-breakdown`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ habit: task, mood: "neutral", time: "" }),
+      });
+
+      let subtasks: string[] | null = null;
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data?.subtasks) && data.subtasks.length > 0) subtasks = data.subtasks;
+      }
+
+      if (!subtasks) subtasks = generateSubtasks(task);
+
+      setHabits((prev) => {
+        const next = prev.map((h) => ({ ...h, subtasks: [...h.subtasks] }));
+        const before = next[habitIndex].subtasks.slice(0, taskIndex);
+        const after = next[habitIndex].subtasks.slice(taskIndex + 1);
+        next[habitIndex].subtasks = [...before, ...subtasks, ...after];
+        return next;
+      });
+    } catch (e) {
+      const subtasks = generateSubtasks(task);
+      setHabits((prev) => {
+        const next = prev.map((h) => ({ ...h, subtasks: [...h.subtasks] }));
+        const before = next[habitIndex].subtasks.slice(0, taskIndex);
+        const after = next[habitIndex].subtasks.slice(taskIndex + 1);
+        next[habitIndex].subtasks = [...before, ...subtasks, ...after];
+        return next;
+      });
+    } finally {
+      setLoadingAi(false);
+    }
+  }
+
+  function deleteHabit(index: number) {
+    if (!window.confirm(`Delete habit and all its tasks?`)) return;
+    setHabits((s) => s.filter((_, i) => i !== index));
+  }
+
+  function deleteSubtask(habitIndex: number, taskIndex: number) {
+    if (!window.confirm(`Delete this subtask?`)) return;
+    setHabits((prev) => {
+      const next = prev.map((h) => ({ ...h, subtasks: [...h.subtasks] }));
+      next[habitIndex].subtasks.splice(taskIndex, 1);
+      return next;
+    });
+  }
+
   useEffect(() => {
     if (showAddForm && inputRef.current) inputRef.current.focus();
   }, [showAddForm]);
@@ -304,15 +359,30 @@ const Habits: React.FC = () => {
                       <Button variant="link" size="sm" onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}>
                         {expandedIndex === index ? "Hide details" : "View details"}
                       </Button>
+                      <Button variant="ghost" size="icon" onClick={() => deleteHabit(index)} aria-label={`Delete ${habit.name}`}>
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
                     </div>
                   </div>
 
                   {expandedIndex === index && (
                     <div className="mt-3 pl-12">
                       <p className="mb-2 font-medium">Sub-tasks</p>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                      <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
                         {habit.subtasks.map((t, i) => (
-                          <li key={i}>{t}</li>
+                          <li key={i}>
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1 pr-4">{t}</div>
+                              <div className="flex items-center gap-2">
+                                <Button variant="link" size="sm" onClick={() => breakSubtask(index, i)}>
+                                  <Scissors className="h-4 w-4" /> Break
+                                </Button>
+                                <Button variant="link" size="sm" onClick={() => deleteSubtask(index, i)}>
+                                  <Trash2 className="h-4 w-4" /> Delete
+                                </Button>
+                              </div>
+                            </div>
+                          </li>
                         ))}
                       </ul>
                     </div>
