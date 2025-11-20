@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import Dashboard from "./pages/Dashboard";
-import Habits from "./pages/Habits";
 import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
@@ -30,7 +29,6 @@ const App = () => {
               <main className="p-8">
                 <Routes>
                   <Route path="/" element={<Dashboard coachPersona={coachPersona} />} />
-                  <Route path="/habits" element={<Habits />} />
                   <Route 
                     path="/settings" 
                     element={

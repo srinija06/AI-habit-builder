@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { name: "Dashboard", icon: Home, path: "/" },
-  { name: "My Habits", icon: Target, path: "/habits" },
   { name: "Coach Settings", icon: Settings, path: "/settings" },
   { name: "Analytics", icon: BarChart3, path: "/analytics" },
 ];
