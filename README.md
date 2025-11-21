@@ -1,3 +1,5 @@
+[Click here for report](docs/report.docx)
+
 AI Habit Builder
 
 An intelligent, adaptive habit-building assistant that breaks tasks into micro-tasks, adapts to users’ emotions and circadian rhythm, and provides multi-style AI coaching.
@@ -160,3 +162,4 @@ Create a branch: git checkout -b feat/your-feature
 Commit changes & push
 
 Open a Pull Request with a brief description
+
