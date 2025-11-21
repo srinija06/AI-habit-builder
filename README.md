@@ -1,5 +1,7 @@
 [Click here for report](docs/report.docx)
 
+PPT link -  https://www.popai.pro/ppt-share?shareKey=144de8cd3bce951a489f6ffd9620e3c823a89d90a786f3c07c31737a92ad060b&utm_source=presentationsharepage
+
 AI Habit Builder
 
 An intelligent, adaptive habit-building assistant that breaks tasks into micro-tasks, adapts to users’ emotions and circadian rhythm, and provides multi-style AI coaching.
@@ -162,4 +164,5 @@ Create a branch: git checkout -b feat/your-feature
 Commit changes & push
 
 Open a Pull Request with a brief description
+
 
